@@ -2,8 +2,8 @@ package JTools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -12,12 +12,14 @@ import java.util.Scanner;
  * Manages Debug Settings
  * <p>
  * Use
+ * </p>
  * <p>
  * Available Debug Levels:
- * -1 = No Debug Tools, All Logging (Finest, Finer, Fine, Info, Warning and Severe)
- * 0  = No Debug Tools, Normal Logging (Info, Warning and Severe) - DEFAULT
- * 1  = Debug Tools, Normal Logging (Info, Warning and Severe)
- * 2  = Debug Tools, All Logging (Finest, Finer, Fine, Info, Warning and Severe)
+ * <table style="width:100%;"><tr><td>No Debug Tools, All Logging (Finest, Finer, Fine, Info, Warning and Severe)</td><td>-1</td></tr>
+ * <tr><td>No Debug Tools, Normal Logging (Info, Warning and Severe) - DEFAULT</td><td>0</td></tr>
+ * <tr><td>Debug Tools, Normal Logging (Info, Warning and Severe)</td><td>1</td></tr>
+ * <tr><td>Debug Tools, All Logging (Finest, Finer, Fine, Info, Warning and Severe)</td><td>2</td></tr></table>
+ * </p>
  * 
  * @author Tahoma Menta
  * @version V0.1.2
@@ -25,38 +27,54 @@ import java.util.Scanner;
 public class DebugManager {
 static ConsoleManager con = new ConsoleManager();
 /**
- * This is the current debug level.<br>
- * This is defaulted to 0.
+ * Defines what the current debug level is.<br>
+ * This is defaulted to <code>0</code>.
  * 
- * @since V1.0
+ * @since V0.1
  */
-    static int debug;
-    static boolean forceReset;
-    
-    public static void main(String[] args){init();}
+    private static int debug;
+/**
+ * Defines if the Debug Manager should automatically set variables to default values.<br>
+ * This is defaulted to <code>false</code>.
+ * 
+ * @since V0.1.2
+ */
+    private static boolean forceReset;
+/**
+ * Only used for testing purposes to allow program to run.
+ * 
+ * @deprecated Only for testing purposes. Will be removed in final version.
+ * @since V0.1.2
+ */
+    public static void main(String[] args){DebugManager dbm = new DebugManager();dbm.menu();}
     
 /**
- * This returns the current debug level.
+ * Returns the current debug level.
  * 
- * @return Debug Level Number 
+ * @return int Debug Level Number 
  * @since V0.1
  */
     public static int getDebugLevel() {return debug;}
 /**
- * This returns true or false in relation to if the debug tools are active or not.
+ * Returns true or false in relation to if the debug tools are active or not.
  * 
- * @return If the debug tools are active or not.
+ * @return boolean If the debug tools are active or not.
  * @since V0.1
  */
     public static boolean getDebugStatus() {if(debug>=1){return true;}else{return false;}}
-
+/**
+ * Changes the debug level to the level supplied.
+ * 
+ * @param foo int The debug level to set.
+ * @since V0.1
+ */
     public static void setDebugLevel(int foo) {
         if(foo>=-1&&foo<=2){debug=foo;con.con(3, "New Debug Level: " + debug);saveVars();}
         else{con.severe("Invalid Debug Level!");con.severe("Level Supplied: " + foo);con.severe("Levels Valid: -1, 0, 1 & 2");}
     }
     
 /**
- * This runs the menu to perform various debug commands.
+ * Runs the menu to perform various debug commands.
  * <p>
  * This includes:<br>
  * setDebugLevel
@@ -83,7 +101,16 @@ static ConsoleManager con = new ConsoleManager();
             menu();
         }
     }
-    
+/**
+ * Resets debug variables to their default state.
+ * <p>
+ * Default states are:<br>
+ * <table style="width:100px;"><tr><td>debug</td><td>0</td></tr>
+ * <tr><td>forceReset</td><td>false</td></tr></table>
+ * </p>
+ * 
+ * @since V0.1.2
+ */
     private static void reset() {
         con.fine("Resetting Debug Variables!");
         con.finer("Resetting Debug Level");
@@ -97,7 +124,11 @@ static ConsoleManager con = new ConsoleManager();
         con.finer("Finished Saving Vars");
         con.fine("Finished Variable Reset");
     }
-    
+/**
+ * Saves the current variables states to a file which can be loaded later.
+ * 
+ * @since V0.1.2
+ */
     private static void saveVars(){
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\JTools\\debugSettings", false)))) {
             out.println(debug);
@@ -106,6 +137,11 @@ static ConsoleManager con = new ConsoleManager();
         } catch (IOException ex) {
         }
     }
+/**
+ * Loads saved variables from a file.
+ * 
+ * @since V0.1.2
+ */
     private static void readVars(){
         try(BufferedReader in = new BufferedReader(new FileReader("C:\\JTools\\debugSettings"))) {
             debug = Integer.parseInt(in.readLine());
@@ -114,9 +150,13 @@ static ConsoleManager con = new ConsoleManager();
         } catch (IOException ex) {
         }
     }
-    public static void init(){
+/**
+ * Run when a DebugManager object is created.
+ * 
+ * @since V0.1.2
+ */
+    public DebugManager(){
         readVars();
-        if(forceReset){con.warn("Settings Demands A Force Reset!!!!!");reset();}
-        menu();
+        if(forceReset){con.warn("Settings Demand A Force Reset!!!!!");reset();}
     }
 }

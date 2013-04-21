@@ -42,8 +42,8 @@ public class ConsoleManager {
 /**
  * This retrieves the necessary tag required for logging and/or console output.
  *
- * @param lv Denotes level for required log tag.
- * @return Required Log Tag
+ * @param lv int Denotes level for required log tag.
+ * @return String Required Log Tag
  * @since V0.1
  */
     private static String getLevel(int lv) {
@@ -63,9 +63,9 @@ public class ConsoleManager {
  * This will log to the console if the debug level set allows the specific level to be logged. They will also be printed to the log if the bar variable is true.<br>
  * Any messages that aren't allowed to be printed to the console due to debug settings will still be printed to the log file if bar is true.
  *
- * @param lv Denotes level required for log tagging.
- * @param out The text to be printed.
- * @param bar Denotes if the text will also be printed to the log file. Will print to log if true.
+ * @param lv int Denotes level required for log tagging.
+ * @param out String The text to be printed.
+ * @param bar boolean Denotes if the text will also be printed to the log file. Will print to log if true.
  * @since V0.1
  */
     private static void print(int lv, String out, boolean bar) {
@@ -86,7 +86,7 @@ public class ConsoleManager {
 /**
  * This prints to the log file.
  *
- * @param foo Text to be printed to the log file.
+ * @param foo String Text to be printed to the log file.
  * @since V0.1
  */
     private static void log(String foo) {
@@ -99,42 +99,42 @@ public class ConsoleManager {
 /**
  * Prints to console & log under the "FINEST" tag.
  * 
- * @param foo Text to be printed.
+ * @param foo String Text to be printed.
  * @since V0.1
  */
     public void finest(String foo){print(0, foo, true);}
 /**
  * Prints to console & log under the "FINER" tag.
  * 
- * @param foo Text to be printed.
+ * @param foo String Text to be printed.
  * @since V0.1
  */
     public void finer(String foo){print(1, foo, true);}
 /**
  * Prints to console & log under the "FINE" tag.
  * 
- * @param foo Text to be printed.
+ * @param foo String Text to be printed.
  * @since V0.1
  */
     public void fine(String foo){print(2, foo, true);}
 /**
  * Prints to console & log under the "INFO" tag.
  * 
- * @param foo Text to be printed.
+ * @param foo String Text to be printed.
  * @since V0.1
  */
     public void info(String foo){print(3, foo, true);}
 /**
  * Prints to console & log under the "WARNING" tag.
  * 
- * @param foo Text to be printed.
+ * @param foo String Text to be printed.
  * @since V0.1
  */
     public void warn(String foo){print(4, foo, true);}
 /**
  * Prints to console & log under the "SEVERE" tag.
  * 
- * @param foo Text to be printed.
+ * @param foo String Text to be printed.
  * @since V0.1
  */
     public void severe(String foo){print(5, foo, true);}
@@ -142,20 +142,25 @@ public class ConsoleManager {
 /**
  * Prints to log under the tag level specified.
  * 
- * @param lv Denotes level required for log tagging.
- * @param foo Text to be printed to the log file.
+ * @param lv int Denotes level required for log tagging.
+ * @param foo String Text to be printed to the log file.
  * @since V0.1
  */
     public void log(int lv, String foo){log((date + getLevel(lv) + foo));}
 /**
  * Prints to console under the tag level specified.
  * 
- * @param lv Denotes level required for log tagging.
- * @param foo Text to be printed to the console.
+ * @param lv int Denotes level required for log tagging.
+ * @param foo String Text to be printed to the console.
  * @since V0.1
  */
     public void con(int lv, String foo){print(lv, foo, false);}
-    
+/**
+ * Asks user to input a int.
+ * 
+ * @return int User input.
+ * @since V0.1.2
+ */
     public int inputMenuOption() {
         int foo;
         Scanner sc = new Scanner(System.in);
