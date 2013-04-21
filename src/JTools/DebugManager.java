@@ -1,4 +1,7 @@
 package JTools;
+
+import java.util.Scanner;
+
 /**
  * Manages Debug Settings
  * <p>
@@ -11,7 +14,7 @@ package JTools;
  * 2  = Debug Tools, All Logging (Finest, Finer, Fine, Info, Warning and Severe)
  * 
  * @author Tahoma Menta
- * @version V0.1
+ * @version V0.1.2
  */
 public class DebugManager {
 static ConsoleManager con = new ConsoleManager();
@@ -43,10 +46,41 @@ static ConsoleManager con = new ConsoleManager();
         else{con.severe("Invalid Debug Level!");con.severe("Level Supplied: " + foo);con.severe("Levels Valid: -1, 0, 1 & 2");}
     }
     
+/**
+ * This runs the menu to perform various debug commands.
+ * <p>
+ * This includes:<br>
+ * setDebugLevel
+ * </p>
+ * 
+ * @since V0.1.2
+ */
     public static void menu() {
         con.con(3, "Running Debug Menu:");
         con.con(3, "1. Change Debug Level");
-        if(con.inputMenuOption()==1){setDebugLevel(con.inputMenuOption());}
+        con.con(3, "0. Exit");
+        con.con(3, "-1. Reset To Default Settings");
+        if(con.inputMenuOption()==1){con.con(3, "Please Enter New Debug Level.");setDebugLevel(con.inputMenuOption());menu();}
+        else if(con.inputMenuOption()==-1){
+            Scanner sc = new Scanner(System.in);
+            boolean bar = false;
+            while(!bar){
+                con.con(3, "ARE YOU SURE? [y/N]");
+                String foo = sc.nextLine();
+                if(foo.equalsIgnoreCase("Y")){reset();bar=true;}
+                else if(foo.equalsIgnoreCase("N")||foo.isEmpty()){bar=true;}
+                else{con.con(3, "INVALID OPTION!");}
+            }
+            menu();
+        }
+    }
+    
+    private static void reset() {
+        con.fine("Resetting Debug Variables!");
+        con.finer("Resetting Debug Level");
+        setDebugLevel(0);
+        con.finer("Debug Level Reset To Default (0)");
+        con.fine("Finished Variable Reset");
     }
 public static void main(String[] args){menu();}
 }

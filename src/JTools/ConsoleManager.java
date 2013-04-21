@@ -157,11 +157,10 @@ public class ConsoleManager {
     public void con(int lv, String foo){print(lv, foo, false);}
     
     public int inputMenuOption() {
-        int foo;
         Scanner sc = new Scanner(System.in);
         con(3, "Please Input Option: ");
         System.out.print("> ");
-        foo = sc.nextInt();
+        int foo = sc.nextInt();
         return foo;
     }
 }
