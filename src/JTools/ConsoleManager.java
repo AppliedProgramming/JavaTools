@@ -90,7 +90,7 @@ public class ConsoleManager {
  * @since V0.1
  */
     private static void log(String foo) {
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\Users\\seven\\javaLog.log", true)))) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\JTools\\log", true)))) {
             out.println(foo);
         }
         catch(IOException e) {}
@@ -157,10 +157,12 @@ public class ConsoleManager {
     public void con(int lv, String foo){print(lv, foo, false);}
     
     public int inputMenuOption() {
+        int foo;
         Scanner sc = new Scanner(System.in);
         con(3, "Please Input Option: ");
         System.out.print("> ");
-        int foo = sc.nextInt();
+        try{foo = sc.nextInt();}
+            catch(Exception e){con(3, "INVALID OPTION!");foo=inputMenuOption();}
         return foo;
     }
 }

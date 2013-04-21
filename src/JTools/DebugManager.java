@@ -1,5 +1,11 @@
 package JTools;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -24,7 +30,10 @@ static ConsoleManager con = new ConsoleManager();
  * 
  * @since V1.0
  */
-    static int debug = 2;
+    static int debug;
+    static boolean forceReset;
+    
+    public static void main(String[] args){init();}
     
 /**
  * This returns the current debug level.
@@ -42,7 +51,7 @@ static ConsoleManager con = new ConsoleManager();
     public static boolean getDebugStatus() {if(debug>=1){return true;}else{return false;}}
 
     public static void setDebugLevel(int foo) {
-        if(foo>=-1&&foo<=2){debug=foo;con.info("New Debug Level: " + debug);}
+        if(foo>=-1&&foo<=2){debug=foo;con.con(3, "New Debug Level: " + debug);saveVars();}
         else{con.severe("Invalid Debug Level!");con.severe("Level Supplied: " + foo);con.severe("Levels Valid: -1, 0, 1 & 2");}
     }
     
@@ -60,7 +69,7 @@ static ConsoleManager con = new ConsoleManager();
         con.con(3, "1. Change Debug Level");
         con.con(3, "0. Exit");
         con.con(3, "-1. Reset To Default Settings");
-        if(con.inputMenuOption()==1){con.con(3, "Please Enter New Debug Level.");setDebugLevel(con.inputMenuOption());menu();}
+        if(con.inputMenuOption()==1){con.con(3,"Current Debug Level: " + debug);con.con(3, "Please Enter New Debug Level.");setDebugLevel(con.inputMenuOption());menu();}
         else if(con.inputMenuOption()==-1){
             Scanner sc = new Scanner(System.in);
             boolean bar = false;
@@ -78,9 +87,36 @@ static ConsoleManager con = new ConsoleManager();
     private static void reset() {
         con.fine("Resetting Debug Variables!");
         con.finer("Resetting Debug Level");
-        setDebugLevel(0);
+        debug=0;
         con.finer("Debug Level Reset To Default (0)");
+        con.finer("Disabling Force Reset");
+        forceReset = false;
+        con.finer("Force Reset Disabled");
+        con.finer("Saving Vars");
+        saveVars();
+        con.finer("Finished Saving Vars");
         con.fine("Finished Variable Reset");
     }
-public static void main(String[] args){menu();}
+    
+    private static void saveVars(){
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\JTools\\debugSettings", false)))) {
+            out.println(debug);
+            out.println(forceReset);
+            out.close();
+        } catch (IOException ex) {
+        }
+    }
+    private static void readVars(){
+        try(BufferedReader in = new BufferedReader(new FileReader("C:\\JTools\\debugSettings"))) {
+            debug = Integer.parseInt(in.readLine());
+            forceReset = Boolean.parseBoolean(in.readLine());
+            in.close();
+        } catch (IOException ex) {
+        }
+    }
+    public static void init(){
+        readVars();
+        if(forceReset){con.warn("Settings Demands A Force Reset!!!!!");reset();}
+        menu();
+    }
 }
