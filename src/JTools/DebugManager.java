@@ -87,12 +87,14 @@ static ConsoleManager con = new ConsoleManager();
         con.con(3, "1. Change Debug Level");
         con.con(3, "0. Exit");
         con.con(3, "-1. Reset To Default Settings");
-        if(con.inputMenuOption()==1){con.con(3,"Current Debug Level: " + debug);con.con(3, "Please Enter New Debug Level.");setDebugLevel(con.inputMenuOption());menu();}
-        else if(con.inputMenuOption()==-1){
+        int optn = con.inputMenuOption();
+        if(optn==1){con.con(3,"Current Debug Level: " + debug);con.con(3, "Please Enter New Debug Level.");setDebugLevel(con.inputMenuOption());menu();}
+        else if(optn==-1){
             Scanner sc = new Scanner(System.in);
             boolean bar = false;
             while(!bar){
                 con.con(3, "ARE YOU SURE? [y/N]");
+                System.out.print("> ");
                 String foo = sc.nextLine();
                 if(foo.equalsIgnoreCase("Y")){reset();bar=true;}
                 else if(foo.equalsIgnoreCase("N")||foo.isEmpty()){bar=true;}
