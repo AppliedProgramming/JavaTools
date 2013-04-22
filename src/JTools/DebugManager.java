@@ -39,7 +39,7 @@ static ConsoleManager con = new ConsoleManager();
  * 
  * @since V0.1.2
  */
-    private static boolean forceReset;
+    private static boolean forceReset;    
 /**
  * Only used for testing purposes to allow program to run.
  * 
@@ -47,7 +47,6 @@ static ConsoleManager con = new ConsoleManager();
  * @since V0.1.2
  */
     public static void main(String[] args){DebugManager dbm = new DebugManager();dbm.menu();}
-    
 /**
  * Returns the current debug level.
  * 
@@ -150,10 +149,16 @@ static ConsoleManager con = new ConsoleManager();
             forceReset = Boolean.parseBoolean(in.readLine());
             in.close();
         } catch (IOException ex) {
+            con.severe("SAVE FILE NOT FOUND! FORCING SETTING RESET!!!!!");
+            reset();
         }
     }
 /**
  * Run when a DebugManager object is created.
+ * <p>
+ * When the DebugManager object is created the debug settings will be loaded from the save file.<br>
+ * If none exists, or errors are thrown, a new file will be created.
+ * </p>
  * 
  * @since V0.1.2
  */
